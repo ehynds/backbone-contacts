@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="author" content="Eric Hynds" />
+	<title>Contacts</title>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	
+	<script type="text/html" id="tmpl-contact">
+		<td><%= lastname %></td>
+		<td><%= firstname %></td>
+		<td><%= phone || 'N/A' %></td>
+		<td><%= email || 'N/A' %></td>
+	</script>
+
+	<script type="text/html" id="tmpl-orderby-letter">
+		<tr class="orderby-letter">
+			<td colspan="4"><%= letter %></td>
+		</tr>
+	</script>
+	
+	<script type="text/html" id="tmpl-filter-stats">
+		<strong><%= num_results %></strong> of <strong><%= total_records %></strong> contacts match your search.
+		<a href="#">clear</a>
+	</script>
+	
+	<script type="text/html" id="tmpl-details">
+		<td colspan="4">
+			<div class="detail-container">
+				<ul class="tabs">
+					<li class="tab active"><a href="#personal-<%= id %>">Personal Information</a></li>
+					<li class="tab"><a href="#notes-<%= id %>">Notes</a></li>
+					<li class="action destroy"><a href="#">delete</a></li>
+					<li class="action edit"><a href="#">edit</a></li>
+				</ul>
+				
+				<div id="personal-<%= id %>" class="panel">
+					<div class="col">
+						<div class="item">
+							<label for="firstname-<%= id %>">First name:</label>
+							<span><%= firstname %></span>
+							<input type="text" name="firstname" id="firstname-<%= id %>" value="<%= firstname %>" />
+						</div>
+						<div class="item">
+							<label for="lastname-<%= id %>">Last name:</label>
+							<span><%= lastname %></span>
+							<input type="text" name="lastname" id="lastname-<%= id %>" value="<%= lastname %>" />
+						</div>
+						<div class="item">
+							<label for="company-<%= id %>">Company:</label>
+							<span><%= company || 'N/A' %></span>
+							<input type="text" name="company" id="company-<%= id %>" value="<%= company %>" />
+						</div>
+						<div class="item">
+							<label for="email-<%= id %>">E-mail:</label>
+							<span><%= email || 'N/A' %></span>
+							<input type="text" name="email" id="email-<%= id %>" value="<%= email %>" />
+						</div>
+						<div class="item">
+							<label for="phone-<%= id %>">Phone:</label>
+							<span><%= phone || 'N/A' %></span>
+							<input type="text" name="phone" id="phone-<%= id %>" value="<%= phone %>" />
+						</div>
+					</div>
+					<div class="col">
+						<div class="item">
+							<label for="address-<%= id %>">Address:</label>
+							<span><%= address || 'N/A' %></span>
+							<input type="text" name="address" id="address-<%= id %>" value="<%= address %>" />
+						</div>
+						<div class="item">
+							<label for="city-<%= id %>">City:</label>
+							<span><%= city || 'N/A' %></span>
+							<input type="text" name="city" id="city-<%= id %>" value="<%= city %>" />
+						</div>
+						<div class="item">
+							<label for="state-<%= id %>">State:</label>
+							<span><%= state || 'N/A' %></span>
+							<input type="text" name="state" id="state-<%= id %>" value="<%= state %>" />
+						</div>
+						<div class="item">
+							<label for="zip-<%= id %>">Zip code:</label>
+							<span><%= zip || 'N/A' %></span>
+							<input type="text" name="zip" id="zip-<%= id %>" value="<%= zip %>" />
+						</div>
+					</div>
+				</div>
+				
+				<div id="notes-<%= id %>" class="panel hide">
+					<p>
+						<% if(!$.trim(notes).length){ %>
+							You haven't added any notes for this contact yet.
+						<% } else { %>
+							<%= notes %>
+						<% } %>
+					</p>
+					
+					<textarea name="notes" placeholder="Enter notes about this contact"><%= notes %></textarea>
+				</div>
+			</div>
+			
+			<footer>
+				<a href="#" class="cancel">Cancel</a> | <a href="#" class="save">Save Contact</a>
+			</footer>
+		</td>
+	</script>
+</head>
+<body>
+
+<div id="container">
+	
+	<header>
+        <a href="#" class="gradient" id="add-contact">Add a Contact</a>
+		<a href="#" class="view view-list" title="Change view"></a>
+		<h1>Contacts</h1>
+	</header>
+	
+	<div id="contacts">
+		<h2 class="gradient">Filter Contacts</h2>
+		
+		<section id="search">
+			<input type="text" placeholder="Begin typing to filter" autocomplete="off" />
+			<p></p>
+		</section>
+		
+		<table>
+			<thead>
+				<tr class="gradient">
+					<th>Last name</th>
+					<th>First name</th>
+					<th>Phone number</th>
+					<th>E-mail address</th>
+				</tr>
+			</thead>
+            <tbody>
+                <tr>
+                    <td id="loading" colspan="4">Loading...</td>
+                </tr>
+            </tbody>
+		</table>
+	</div>
+</div>
+
+<footer>
+    <p>created by <a href="http://erichynds.com">eric</a> using <a href="http://documentcloud.github.com/backbone/">backbone.js</a> just for the fun of it.</p>
+</footer>
+
+<div id="dialog">
+	<p>First and last names are required.</p>
+	<form style="clear:both">
+		<div class="columns">
+			<div class="col">
+				<div><label>First name:</label><input type="text" name="firstname" /></div>
+				<div><label>Last name:</label><input type="text" name="lastname" /></div>
+				<div><label>Company</label><input type="text" name="company" /></div>
+				<div><label>E-mail address:</label><input type="text" name="email" /></div>
+				<div><label>Phone:</label><input type="text" name="phone" /></div>
+			</div>
+			<div class="col">
+				<div><label>Address:</label><input type="text" name="address" /></div>
+				<div><label>City:</label><input type="text" name="city" /></div>
+				<div><label>State:</label><input type="text" name="state" /></div>
+				<div><label>Zip code:</label><input type="text" name="zip" /></div>
+			</div>
+		</div>
+		<div class="notes">
+			<label>Notes:</label>
+			<textarea name="notes"></textarea>
+		</div>
+	</form>
+</div>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script> -->
+<script src="scripts/libs/lab.js"></script>
+<script src="scripts/app.js"></script>
+</body>
+</html>
