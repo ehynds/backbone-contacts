@@ -17,14 +17,14 @@
 			event.preventDefault();
 			
 			this.collection.renderMode = this.collection.renderMode === 'default' ?
-			    'alpha' :
-			    'default';
+				'alpha' :
+				'default';
 			
 			// re-render and re-filter
 			this.collection.fetch({
-			    success: function(){
-                    app.filterView.el.find('input').trigger('keyup');
-                 }
+				success: function(){
+					app.filterView.el.find('input').trigger('keyup');
+				 }
 			});
 		}
 		

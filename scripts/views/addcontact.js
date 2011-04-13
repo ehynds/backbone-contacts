@@ -4,36 +4,36 @@
  */
 (function(){
 	
-    var dialog = $('#dialog').dialog({
-        autoOpen: false,
-        modal: true,
-        draggable: false,
-        resizable: false,
-        width: 720,
-        height: 425,
-        title: 'Add Contact',
-        buttons: [
-            {
-                text: 'Cancel',
-                id: 'close',
-                click: function(){
-                    $(this).dialog('close');
-                }
-            },
-            {
-                text: 'Save',
-                id: 'save',
-                click: $.noop // view takes over
-            }
-        ]
-    });
+	var dialog = $('#dialog').dialog({
+		autoOpen: false,
+		modal: true,
+		draggable: false,
+		resizable: false,
+		width: 720,
+		height: 425,
+		title: 'Add Contact',
+		buttons: [
+			{
+				text: 'Cancel',
+				id: 'close',
+				click: function(){
+					$(this).dialog('close');
+				}
+			},
+			{
+				text: 'Save',
+				id: 'save',
+				click: $.noop // view takes over
+			}
+		]
+	});
 
 	
 	// Add contact dialog
 	app.DialogView = Backbone.View.extend({
 		el: $('.ui-dialog'),
 		inputs: $(false),
-
+		
 		events: {
 			'click #save': 'save',
 			'keyup': 'saveOnEnter'
@@ -69,7 +69,7 @@
 			this.inputs.each(function(){
 				this.value = data[ this.name ];
 			});
-
+			
 			return this;
 		},
 		
@@ -99,11 +99,11 @@
 			this.collection.create(this.serialize(), {
 				error: function( model, inputs ){
 					self._resetValidation();
-
+					
 					$.each(inputs, function( i, input ){
 						self._getSet( input ).addClass('error');
 					});
-
+					
 					// not sure why backbone saves the model before validating it.
 					model.destroy();
 				},
@@ -112,27 +112,27 @@
 				}
 			});
 		},
-
+		
 		// utility methods
 		
 		_getSet: function( name ){
 			var ret = name ? this.inputs.filter(function(){
 				return this.name === name;
 			}) : this.inputs;
-
+			
 			return ret.prev().andSelf();
 		},
-
+		
 		_resetValidation: function(){
 			this._getSet().removeClass('error');
 		}
 	});
 	
 
-    // "Add a Contact" button view
+	// "Add a Contact" button view
 	var AddContactView = Backbone.View.extend({
 		el: $('#add-contact'),
-
+		
 		events: {
 			'click': 'add'
 		},

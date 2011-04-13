@@ -12,6 +12,6 @@
 		model: RenderMode,
 		localStorage: new Store('renderMode')
 	});
-
+	
 	app.renderMode = new RenderModeCollection;
 })();
