@@ -1,5 +1,5 @@
 (function(){
-	var RenderModeView = Backbone.View.extend({
+	app.RenderModeView = Backbone.View.extend({
 		el: $('header a.view'),
 		
 		events: {
@@ -28,9 +28,5 @@
 			});
 		}
 		
-	});
-	
-	app.renderModeView = new RenderModeView({
-		collection: app.contactList
 	});
 })();

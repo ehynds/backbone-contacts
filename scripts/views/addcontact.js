@@ -30,7 +30,7 @@
 
 	
 	// Add contact dialog
-	app.DialogView = Backbone.View.extend({
+	var DialogView = Backbone.View.extend({
 		el: $('.ui-dialog'),
 		inputs: $(false),
 		
@@ -130,7 +130,7 @@
 	
 
 	// "Add a Contact" button view
-	var AddContactView = Backbone.View.extend({
+	app.AddContactView = Backbone.View.extend({
 		el: $('#add-contact'),
 		
 		events: {
@@ -141,8 +141,8 @@
 			_.bindAll(this, 'add');
 			
 			// create a reusable dialog instance
-			this.dialog = new app.DialogView({
-				collection: app.contactList,
+			this.dialog = new DialogView({
+				collection: app.contactsCollection,
 				model: this.model
 			});
 		},
@@ -153,7 +153,4 @@
 		}
 	});
 	
-	app.addContactView = new AddContactView({
-		model: new app.Contact
-	});
 })();

@@ -52,10 +52,10 @@
 		
 		activate: function(){
 			var el = this.el,
-				contactList = app.contactList;
+				collection = app.contactsCollection;
 			
 			// find the open contact
-			var openContact = contactList.detect(function(contact){
+			var openContact = collection.detect(function(contact){
 				return contact.view.el !== el && contact.view.details.isOpen;
 			});
 			
@@ -67,7 +67,7 @@
 			}
 			
 			// toggle active class
-			contactList.each(function( contact ){
+			collection.each(function( contact ){
 				var view = contact.view;
 				
 				// apply active class to the row
@@ -76,6 +76,9 @@
 				// toggle the details view
 				if( el === view.el ){
 					view.details.toggle();
+
+					// remember this route
+					app.controller.saveLocation('view/' + contact.id);
 				}
 			});
 		}
@@ -85,15 +88,13 @@
 	/**
 	 * Collection: contacts
 	 */
-	var ContactList = Backbone.Collection.extend({
+	app.ContactsCollection = Backbone.Collection.extend({
 		model: app.Contact,
-		localStorage: new Store("contacts"),
+		localStorage: new Store('contacts'),
 		renderMode: 'default',
 		comparator: function( contact ){
 			return contact.get('lastname').toLowerCase();
 		}
 	});
-
-	app.contactList = new ContactList;
 
 })();

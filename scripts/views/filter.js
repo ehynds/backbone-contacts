@@ -1,7 +1,5 @@
 (function(){
-	var contactList = app.contactList;
-
-	var FilterView = Backbone.View.extend({
+	app.FilterView = Backbone.View.extend({
 		el: $('#search'),
 		
 		events: {
@@ -34,7 +32,7 @@
 				headers = new $.fn.init;
 
 			function search(){
-				var matches = contactList.filter(function(contact){
+				var matches = self.collection.filter(function(contact){
 					var view = contact.view, header = view.header;
 
 					// show or hide this row (and header, if there is one) based
@@ -68,7 +66,7 @@
 					
 					self.stats.html(
 						self.template({
-							total_records: contactList.length,
+							total_records: self.collection.length,
 							num_results: matches.length
 						})
 					);
@@ -97,5 +95,4 @@
 		}
 	});
 
-	app.filterView = new FilterView;
 })();

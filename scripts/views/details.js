@@ -77,6 +77,11 @@ app.DetailsView = Backbone.View.extend({
 			lastname: this.$('[name="lastname"]').val(),
 			email: this.$('[name="email"]').val(),
 			phone: this.$('[name="phone"]').val(),
+			company: this.$('[name="company"]').val(),
+			address: this.$('[name="address"]').val(),
+			city: this.$('[name="city"]').val(),
+			state: this.$('[name="state"]').val(),
+			zip: this.$('[name="zip"]').val(),
 			notes: this.$('[name="notes"]').val()
 		}
 	},

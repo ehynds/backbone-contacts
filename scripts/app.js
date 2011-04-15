@@ -1,4 +1,5 @@
 (function(){
+
 	window.app = {};
 
 	$LAB.setGlobalDefaults({
@@ -19,7 +20,8 @@
 	.script('views/contactslist.js')
 	.script('views/addcontact.js')
 	.script('views/rendermode.js')
-	.script('views/filter.js');
+	.script('views/filter.js')
+	.script('controllers/controller.js');
 
 	// preload the grouped view icon
 	var img = document.createElement('img');
